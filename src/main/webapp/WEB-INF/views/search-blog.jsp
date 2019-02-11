@@ -11,13 +11,13 @@
 
     <div align="center">
         <a href="/home"><h3>Home</h3></a>
-        <h1>Naver Blog Search</h1>
+        <h1>네이버 블로그 검색</h1>
 
         <form id="keywordForm">
-            검색어 입력: <input type="text" name="keyword"/>
+            검색어 입력:&nbsp;<input id="keyword" type="text" name="keyword"/>
+            <br>
+            <button id="searchBtnBlog">검색</button>
         </form>
-        <br>
-        <button id="searchBtnBlog">검색</button>
     </div>
     <br>
     <div align="center">
@@ -25,23 +25,40 @@
     </div>
     <script>
         $(function () {
-            $('button#searchBtnBlog').on('click', function () {
+
+            $("button#searchBtnBlog").on("click", function () {
+                searchBlog();
+            });
+
+            // $("input#keyword").on("keypress", (event) => {
+            //     if(event.which === 13){
+            //         searchBlog();
+            //     }
+            // });
+        });
+
+        function searchBlog() {
+
+            const searchKeyword = $("input#keyword").val();
+
+            if(searchKeyword === "" || null){
+                alert("검색어를 입력해주세요.");
+            } else {
                 $.ajax({
-                    method:'post',
-                    url: '/list-data/result',
-                    dataType: 'json',
-                    data: $('#keywordForm').serialize(),
+                    method:"post",
+                    url: "/list-data/result-blog",
+                    dataType: "json",
+                    data: $("#keywordForm").serialize(),
                     success: function (data) {
                         alert('비동기 통신 성공!! data: ' + data);
                         console.log("data: ", data);
-
                     },
                     error: function (error) {
                         alert("data error!!");
                     }
                 });
-            });
-        });
+            }
+        }
 
     </script>
 </body>
